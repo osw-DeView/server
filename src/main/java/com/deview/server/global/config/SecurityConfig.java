@@ -3,7 +3,9 @@ package com.deview.server.global.config;
 import com.deview.server.global.auth.filter.JwtExceptionFilter;
 import com.deview.server.global.auth.filter.JwtFilter;
 import com.deview.server.global.auth.filter.LoginFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +22,12 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +36,9 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
     private final AuthenticationSuccessHandler loginSuccessHandler;
     private final AuthenticationFailureHandler loginFailureHandler;
+
+    @Value("${spring.frontend.url}")
+    private String frontendUrl;
 
     private static final String[] ALLOWED = {
             "/",
@@ -69,6 +80,28 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtExceptionFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
 
+                //cors 설정
+                .cors((corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
+
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+
+                        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                        CorsConfiguration config = new CorsConfiguration();
+
+                        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                        config.setAllowedOrigins(Collections.singletonList(frontendUrl));
+                        config.setAllowCredentials(true);
+                        config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+                        config.setExposedHeaders(Arrays.asList("access", "Authorization")); // 프론트엔드에서 access 헤더를 읽을 수 있도록 설정
+                        config.setMaxAge(3600L);
+
+
+                        source.registerCorsConfiguration("/**", config);
+
+                        return config;
+                    }
+                })))
         ;
         return http.build();
     }
