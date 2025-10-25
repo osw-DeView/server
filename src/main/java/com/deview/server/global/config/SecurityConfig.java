@@ -90,7 +90,7 @@ public class SecurityConfig {
                         CorsConfiguration config = new CorsConfiguration();
 
                         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                        config.setAllowedOrigins(Collections.singletonList(frontendUrl));
+                        config.setAllowedOriginPatterns(Collections.singletonList(frontendUrl));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
                         config.setExposedHeaders(Arrays.asList("access", "Authorization")); // 프론트엔드에서 access 헤더를 읽을 수 있도록 설정
