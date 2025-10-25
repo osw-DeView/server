@@ -41,4 +41,35 @@ public class JwtController {
         return ApiResponse.success(Status.OK.getCode(),
                 Status.OK.getMessage(),jwtResponseDto);
     }
+
+    @PostMapping("/test/login")
+    @Operation(summary = "로그인 테스트")
+    public ApiResponse<LoginResponseDto> loginTest(@RequestBody @Valid LoginRequestDto loginRequestDto){
+
+        String username = loginRequestDto.getUsername();
+        String rawPassword = loginRequestDto.getPassword();
+
+        UserDetails userDetails = authService.loadUserByUsername(username);
+
+        if (!passwordEncoder.matches(rawPassword, userDetails.getPassword())) {
+            throw new GeneralException(Status.LOGIN_FAILED_INVALID_PASSWORD);
+        }
+
+        if(jwtService.existsUsername(username)){
+            throw new GeneralException(Status.EXISTS_REFRESH_TOKEN);
+        }
+
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        String role = authorities.iterator().next().getAuthority();
+
+        String accessToken = JwtUtil.createJWT(username, role, true);
+        String refreshToken = JwtUtil.createJWT(username, role, false);
+
+        jwtService.addRefresh(refreshToken, username);
+
+        LoginResponseDto token = new LoginResponseDto(accessToken, refreshToken);
+
+        return ApiResponse.success(Status.OK.getCode(),
+                Status.CREATED.getMessage(),token);
+    }
 }
