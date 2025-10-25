@@ -28,5 +28,13 @@ spring:
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD}
 
+  security:
+    jwt:
+      secret: ${JWT_SECRET_KEY}
+      access:
+        expiration: ${JWT_ACCESS_EXPIRATION}
+      refresh:
+          expiration: ${JWT_REFRESH_EXPIRATION}
+
 server:
   port: 8080
