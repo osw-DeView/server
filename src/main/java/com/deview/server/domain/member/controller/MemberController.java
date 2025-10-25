@@ -5,6 +5,7 @@ import com.deview.server.domain.auth.service.AuthService;
 import com.deview.server.domain.member.dto.IsExistanceMamber;
 import com.deview.server.global.response.ApiResponse;
 import com.deview.server.global.response.Status;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final AuthService authService;
 
-    @PostMapping("test/member/exist")
+    @PostMapping("/member/exist")
+    @Operation(summary = "멤버 존재 여부 확인", description = "access 토근 인증 후 멤버 존재 여부 확인")
     public ApiResponse<IsExistanceMamber> memberExist(@RequestBody @Valid LoginRequestDto dto){
         IsExistanceMamber res = new IsExistanceMamber(authService.isExistMember(dto));
 

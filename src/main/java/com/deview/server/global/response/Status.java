@@ -17,6 +17,9 @@ public enum Status {
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "COMMON401", "인증이 필요합니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON500", "서버에 오류가 발생했습니다."),
+    CONFLICT(HttpStatus.CONFLICT, "COMMON409", "이미 생성되었습니다."),
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "TOKEN401", "유효하지 않은 refreshToken입니다."),
+    EXISTS_REFRESH_TOKEN(HttpStatus.CONFLICT,"TOEKN401","이미 로그인되었습니다."),
 
     //멤버 관련 오류
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404", "회원이 존재하지 않습니다."),
@@ -28,6 +31,13 @@ public enum Status {
     ALREADY_EXISTS_USERNAME(HttpStatus.CONFLICT,"MEMBER409","이미 존재하는 아이디입니다."),
     ALREADY_EXISTS_NICKNAME(HttpStatus.CONFLICT,"MEMBER410","이미 존재하는 닉네임입니다."),
     MEMBER_PASSWORD_INVALID(HttpStatus.BAD_REQUEST,"MEMBER400","잘못된 비밀번호 형식입니다."),
+
+
+    //JWT 오류 응답
+    JWT_WRONG_TYPE_TOKEN(HttpStatus.BAD_REQUEST, "JWT400", "JWT 타입이 틀렸습니다."),
+    JWT_EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "JWT400", "JWT가 만료되었습니다."),
+    JWT_NULL(HttpStatus.UNAUTHORIZED, "JWT401", "JWT가 NULL입니다."),
+    JWT_INVALID(HttpStatus.FORBIDDEN, "JWT403", "JWT가 유효하지 않습니다."),
 
     ;
 

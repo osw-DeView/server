@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthService implements UserDetailsService {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final PasswordManager passwordManager;
@@ -27,6 +27,15 @@ public class AuthService {
         SignupValidationStatus.validateAll(signupRequestDto,memberService,passwordManager);
         Member member = Member.toEntity(signupRequestDto, passwordEncoder);
         memberService.saveMember(member);
+    }
+
+    // 자체 로그인
+    @Transactional(readOnly = true)
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        Member member = memberService.getMemberByUsername(username);
+        return new CustomUserDetails(member);
     }
 
     // 멤버 존재 여부
