@@ -21,13 +21,10 @@ public class RefreshToken {
     @Indexed
     private String jwtRefreshToken;
 
-    @TimeToLive
-    private Long ttl;
 
     @Builder
     public RefreshToken(String jwtRefreshToken, String username) {
         this.jwtRefreshToken = jwtRefreshToken;
         this.username = username;
-        this.ttl = 60*60*24*14L;
     }
 }

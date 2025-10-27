@@ -77,7 +77,7 @@ public class SecurityConfig {
                 )
 
                 .addFilterBefore(new JwtFilter(), LogoutFilter.class)
-                .addFilterBefore(new JwtExceptionFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtExceptionFilter(), JwtFilter.class)
                 .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
 
                 //cors 설정
