@@ -26,6 +26,11 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        if (request.getRequestURI().equals("/auth/jwt/refresh")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         //Authorization 헤더 검증
         String authorization = request.getHeader("Authorization");
         if (authorization == null) {
@@ -34,7 +39,6 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if (!authorization.startsWith("Bearer ")) {
-            //throw new ServletException("Invalid JWT token");
             throw new JwtException(Status.JWT_INVALID.getMessage());
         }
 

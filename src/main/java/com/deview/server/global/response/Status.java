@@ -34,10 +34,10 @@ public enum Status {
 
 
     //JWT 오류 응답
-    JWT_WRONG_TYPE_TOKEN(HttpStatus.BAD_REQUEST, "JWT400", "JWT 타입이 틀렸습니다."),
-    JWT_EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "JWT400", "JWT가 만료되었습니다."),
+    JWT_WRONG_TYPE_TOKEN(HttpStatus.UNAUTHORIZED, "JWT401", "JWT 타입이 틀렸습니다."),
+    JWT_EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "JWT401", "JWT가 만료되었습니다."),
     JWT_NULL(HttpStatus.UNAUTHORIZED, "JWT401", "JWT가 NULL입니다."),
-    JWT_INVALID(HttpStatus.FORBIDDEN, "JWT403", "JWT가 유효하지 않습니다."),
+    JWT_INVALID(HttpStatus.UNAUTHORIZED, "JWT401", "JWT가 유효하지 않습니다."),
 
     ;
 
