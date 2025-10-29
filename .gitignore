@@ -39,3 +39,6 @@ out/
 
 ## env
 .env
+
+## Docker ##
+/db/mysql_data/
