@@ -17,18 +17,22 @@ public class StudyContent {
 
     @Id
     @NotNull
-    @Column(updatable = false)
+    @Column(name = "STUDY_CONTENT_ID", updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String TECH_INTERVIEW_ID;
+    private Long studyContentId;
 
-    private String FIRST_CATEGORY;
-
-    @NotNull
-    private String SECOND_CATEGORY;
+    @Column(name = "FIRST_CATEGORY")
+    private String firstCategory;
 
     @NotNull
-    private String TITLE;
+    @Column(name = "SECOND_CATEGORY")
+    private String secondCategory;
 
     @NotNull
-    private String BODY;
+    @Column(name = "TITLE")
+    private String title;
+
+    @NotNull
+    @Column(name = "BODY")
+    private String body;
 }
