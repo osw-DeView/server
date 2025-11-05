@@ -1,8 +1,8 @@
-package com.deview.server.content.study.service;
+package com.deview.server.domain.study.service;
 
-import com.deview.server.content.study.domain.StudyContent;
-import com.deview.server.content.study.dto.StudyContentRequestDto;
-import com.deview.server.content.study.repository.StudyRepository;
+import com.deview.server.domain.study.domain.StudyContent;
+import com.deview.server.domain.study.dto.StudyContentRequestDto;
+import com.deview.server.domain.study.repository.StudyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

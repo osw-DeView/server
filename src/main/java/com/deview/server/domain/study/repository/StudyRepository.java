@@ -1,6 +1,6 @@
-package com.deview.server.content.study.repository;
+package com.deview.server.domain.study.repository;
 
-import com.deview.server.content.study.domain.StudyContent;
+import com.deview.server.domain.study.domain.StudyContent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

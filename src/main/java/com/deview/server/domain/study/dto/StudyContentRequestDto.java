@@ -1,4 +1,4 @@
-package com.deview.server.content.study.dto;
+package com.deview.server.domain.study.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

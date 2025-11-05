@@ -1,9 +1,9 @@
-package com.deview.server.content.study.controller;
+package com.deview.server.domain.study.controller;
 
-import com.deview.server.content.study.domain.StudyContent;
-import com.deview.server.content.study.dto.StudyContentRequestDto;
-import com.deview.server.content.study.dto.StudyContentResponseDto;
-import com.deview.server.content.study.service.StudyService;
+import com.deview.server.domain.study.domain.StudyContent;
+import com.deview.server.domain.study.dto.StudyContentRequestDto;
+import com.deview.server.domain.study.dto.StudyContentResponseDto;
+import com.deview.server.domain.study.service.StudyService;
 import com.deview.server.global.response.ApiResponse;
 import com.deview.server.global.response.Status;
 import jakarta.validation.Valid;

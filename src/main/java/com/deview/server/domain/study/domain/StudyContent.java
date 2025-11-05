@@ -1,4 +1,4 @@
-package com.deview.server.content.study.domain;
+package com.deview.server.domain.study.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
