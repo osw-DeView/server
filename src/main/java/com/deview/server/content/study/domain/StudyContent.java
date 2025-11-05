@@ -19,7 +19,7 @@ public class StudyContent {
     @NotNull
     @Column(updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String studyCntId;
+    private String TECH_INTERVIEW_ID;
 
     private String FIRST_CATEGORY;
 
