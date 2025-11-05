@@ -3,6 +3,8 @@ services:
     image: mysql:8
     container_name: deview-mysql
     restart: always
+    env_file:
+      - .env.docker
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -12,4 +14,36 @@ services:
       - ./db/data:/var/lib/mysql-files
       - ./db/mysql_data:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - ${MYSQL_PORT}:${MYSQL_DOCKER_PORT}
+    networks:
+      - network
+
+  redis:
+    image: redis:7.0
+    container_name: deview-redis
+    restart: always
+    env_file:
+      - .env.docker
+    ports:
+      - ${REDIS_PORT}:${REDIS_DOCKER_PORT}
+    networks:
+      - network
+
+  server:
+    env_file:
+      - .env.docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: deview-server
+    #restart: on-failure
+    depends_on:
+      - db
+    ports:
+      - ${SERVER_PORT}:${SERVER_DOCKER_PORT}
+
+    networks:
+      - network
+
+networks:
+  network:
