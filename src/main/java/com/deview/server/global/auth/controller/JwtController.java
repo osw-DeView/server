@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -40,6 +41,17 @@ public class JwtController {
         JwtResponseDto jwtResponseDto = jwtService.refreshRotate(dto);
         return ApiResponse.success(Status.OK.getCode(),
                 Status.OK.getMessage(),jwtResponseDto);
+    }
+
+
+    @PostMapping("auth/logout")
+    @Operation(summary = "로그아웃(Refresh 토큰 삭제)")
+    public ApiResponse<?> logout(@Validated @RequestBody RefreshRequestDto dto){
+        String refreshToken = dto.getRefreshToken();
+        jwtService.removeRefresh(refreshToken);
+
+        return ApiResponse.success(Status.OK.getCode(),
+                Status.OK.getMessage(),null);
     }
 
     @PostMapping("/test/login")
