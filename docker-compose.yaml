@@ -15,6 +15,13 @@ services:
       - ./db/mysql_data:/var/lib/mysql
     ports:
       - ${MYSQL_PORT}:${MYSQL_DOCKER_PORT}
+
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
     networks:
       - network
 
@@ -26,6 +33,13 @@ services:
       - .env.docker
     ports:
       - ${REDIS_PORT}:${REDIS_DOCKER_PORT}
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+
     networks:
       - network
 
@@ -36,9 +50,12 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: deview-server
-    #restart: on-failure
+    restart: on-failure
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     ports:
       - ${SERVER_PORT}:${SERVER_DOCKER_PORT}
 
