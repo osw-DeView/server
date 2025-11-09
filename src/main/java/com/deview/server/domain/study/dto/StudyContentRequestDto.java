@@ -20,10 +20,6 @@ public class StudyContentRequestDto {
     private String firstCategory;
 
     @NotBlank
-    @Schema(description = "하위카테고리", example = "프로세스의 주소 공간")
+    @Schema(description = "하위카테고리", example = "운영체제")
     private String secondCategory;
-
-    @NotBlank
-    @Schema(description = "제목", example = "프로세스의 주소 공간이란?")
-    private String title;
 }

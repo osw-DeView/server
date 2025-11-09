@@ -22,6 +22,8 @@ public interface StudyRepository extends JpaRepository<StudyContent, String> {
             @Param("title") String title
     );
 
+    List<StudyContent> findAllByFirstCategoryAndSecondCategory(String firstCategory, String secondCategory);
+
     /**
      * DB에서 중복을 제거한 firstCategory 목록만 조회
      */
