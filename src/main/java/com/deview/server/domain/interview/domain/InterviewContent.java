@@ -21,7 +21,7 @@ public class InterviewContent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long techInterviewId;
 
-    @Column(name = "HIGH_QST_NUM")
+    @Column(name = "HGH_QST_NUM")
     private Long highQstNum;
 
     @NotNull
@@ -41,6 +41,6 @@ public class InterviewContent {
     private String answer;
 
     @NotNull
-    @Column(name = "HIGH_QST_YN")
+    @Column(name = "HGH_QST_YN")
     private String highQstYn;
 }
