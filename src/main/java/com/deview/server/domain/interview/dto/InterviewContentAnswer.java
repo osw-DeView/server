@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class InterviewContentResponseDto {
+public class InterviewContentAnswer {
 
     @Schema(description = "질문", example = "오라클 시퀀스(Oracle Sequence) 는 무엇인가요?")
     private String question;
@@ -22,11 +22,9 @@ public class InterviewContentResponseDto {
     @Schema(description = "상위질문사용가능", example = "TRUE")
     private String highQstYn;
 
-    public static InterviewContentResponseDto fromEntity(InterviewContent entity) {
-        return InterviewContentResponseDto.builder()
-                .question(entity.getQuestion())
-                .answer(entity.getAnswer())
-                .highQstYn(entity.getHighQstYn())
-                .build();
+    public InterviewContentAnswer (InterviewContent interviewContent) {
+        this.question = interviewContent.getQuestion();
+        this.answer = interviewContent.getAnswer();
+        this.highQstYn = interviewContent.getHighQstYn();
     }
 }

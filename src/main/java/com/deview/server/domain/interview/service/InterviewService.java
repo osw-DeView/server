@@ -2,6 +2,7 @@ package com.deview.server.domain.interview.service;
 
 import com.deview.server.domain.interview.domain.InterviewContent;
 import com.deview.server.domain.interview.dto.InterviewCategoryItemDto;
+import com.deview.server.domain.interview.dto.InterviewContentAnswer;
 import com.deview.server.domain.interview.dto.InterviewContentRequestDto;
 import com.deview.server.domain.interview.repository.InterviewRepository;
 import com.deview.server.domain.study.dto.CategoryItemDto;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +23,15 @@ public class InterviewService {
     /**
      * 전달하고자 하는 기술면접 컨텐츠 조회
      */
-    public InterviewContent findInterviewContent(InterviewContentRequestDto dto) {
-        String category = dto.getCategory();
-        String keyword = dto.getKeyword();
+    public List<InterviewContentAnswer> findInterviewContent(InterviewContentRequestDto dto) {
+        List<InterviewContent> contents = interviewRepository.findAllByCategoryAndKeyword(
+                dto.getCategory(),
+                dto.getKeyword()
+        );
 
-        return interviewRepository.findByCatAndKwd(
-                category,
-                keyword
-        ).orElseThrow(() -> new IllegalArgumentException("해당 조건의 기술면접 컨텐츠를 찾을 수 없습니다."));
+        return contents.stream()
+                .map(InterviewContentAnswer::new)
+                .collect(Collectors.toList());
     }
 
     /**

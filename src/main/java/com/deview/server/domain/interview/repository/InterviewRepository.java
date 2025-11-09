@@ -27,6 +27,8 @@ public interface InterviewRepository extends JpaRepository<InterviewContent, Str
     @Query("SELECT DISTINCT i.category FROM InterviewContent i")
     List<String> findCategory();
 
+    List<InterviewContent> findAllByCategoryAndKeyword(String category, String keyword);
+
 
     /**
      * 특정 Category에 속하는 중복 제거된 keyword 목록을 조회
