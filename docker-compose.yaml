@@ -4,7 +4,7 @@ services:
     container_name: deview-mysql
     restart: always
     env_file:
-      - .env.docker
+      - .env
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -14,36 +14,69 @@ services:
       - ./db/data:/var/lib/mysql-files
       - ./db/mysql_data:/var/lib/mysql
     ports:
-      - ${MYSQL_PORT}:${MYSQL_DOCKER_PORT}
+      - ${MYSQL_HOST_PORT}:${MYSQL_DOCKER_PORT}
+
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
     networks:
-      - network
+      - deview-network
 
   redis:
     image: redis:7.0
     container_name: deview-redis
     restart: always
     env_file:
-      - .env.docker
+      - .env
     ports:
-      - ${REDIS_PORT}:${REDIS_DOCKER_PORT}
+      - ${REDIS_HOST_PORT}:${REDIS_DOCKER_PORT}
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+
     networks:
-      - network
+      - deview-network
 
   server:
     env_file:
-      - .env.docker
+      - .env
     build:
       context: .
       dockerfile: Dockerfile
     container_name: deview-server
-    #restart: on-failure
+    restart: on-failure
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     ports:
       - ${SERVER_PORT}:${SERVER_DOCKER_PORT}
+    environment:
+      # DB
+      MYSQL_HOST: ${MYSQL_DOCKER_HOST}
+      MYSQL_PORT: ${MYSQL_DOCKER_PORT}
+
+      # Redis
+      REDIS_HOST: ${REDIS_DOCKER_HOST}
+      REDIS_PORT: ${REDIS_DOCKER_PORT}
+
+      # Application Configuration
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SERVER_PORT: ${SERVER_DOCKER_PORT}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+
+      # Frontend URL
+      FRONTEND_URL: ${FRONTEND_URL}
 
     networks:
-      - network
+      - deview-network
 
 networks:
-  network:
+  deview-network:
