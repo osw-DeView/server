@@ -13,7 +13,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update # 배포 시 none으로 수정
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
     defer-datasource-initialization: true
     show-sql: true
     open-in-view: false
