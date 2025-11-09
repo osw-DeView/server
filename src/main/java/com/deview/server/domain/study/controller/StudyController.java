@@ -1,10 +1,6 @@
 package com.deview.server.domain.study.controller;
 
-import com.deview.server.domain.study.domain.StudyContent;
-import com.deview.server.domain.study.dto.CategoryItemDto;
-import com.deview.server.domain.study.dto.CategoryListResponseDto;
-import com.deview.server.domain.study.dto.StudyContentRequestDto;
-import com.deview.server.domain.study.dto.StudyContentResponseDto;
+import com.deview.server.domain.study.dto.*;
 import com.deview.server.domain.study.service.StudyService;
 import com.deview.server.global.response.ApiResponse;
 import com.deview.server.global.response.Status;
@@ -22,18 +18,19 @@ public class StudyController {
 
     /**
      * 학습컨텐츠 내용 조회
-     * 상위/하위 카테고리, 제목을 Dto로 받으면 그것을 토대로 Body를 받아와 전부 반환
+     * 상위/하위 카테고리를 Dto로 받으면 그것을 토대로 해당하는 제목과 본문을 전부 반환
      *
      * @param requestDto
-     * @return ApiResponse<StudyContentResponseDto>
+     * @return ApiResponse<StudyContentsResponseDto>
      */
-    @PostMapping("/getBody")
-    public ApiResponse<StudyContentResponseDto> findStudyContent(@Valid @RequestBody StudyContentRequestDto requestDto) {
+    @PostMapping("/contents")
+    public ApiResponse<StudyContentsResponseDto> findStudyContents(@Valid @RequestBody StudyContentRequestDto requestDto) {
 
-        StudyContent contentEntity = studyService.findStudyContentByCriteria(requestDto);
+        List<StudyContentBody> contentBodies = studyService.findStudyContentsByCategory(requestDto);
+        StudyContentsResponseDto responseData = new StudyContentsResponseDto(contentBodies);
 
         return ApiResponse.success(Status.OK.getCode(),
-                Status.OK.getMessage(), StudyContentResponseDto.fromEntity(contentEntity));
+                Status.OK.getMessage(), responseData);
     }
 
     /**

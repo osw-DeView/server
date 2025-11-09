@@ -2,6 +2,7 @@ package com.deview.server.domain.study.service;
 
 import com.deview.server.domain.study.domain.StudyContent;
 import com.deview.server.domain.study.dto.CategoryItemDto;
+import com.deview.server.domain.study.dto.StudyContentBody;
 import com.deview.server.domain.study.dto.StudyContentRequestDto;
 import com.deview.server.domain.study.repository.StudyRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,16 +20,15 @@ public class StudyService {
     /**
      * 전달하고자 하는 학습 컨텐츠 조회
      */
-    public StudyContent findStudyContentByCriteria(StudyContentRequestDto dto) {
-        String firstCategory = dto.getFirstCategory();
-        String secondCategory = dto.getSecondCategory();
-        String title = dto.getTitle();
+    public List<StudyContentBody> findStudyContentsByCategory(StudyContentRequestDto dto) {
+        List<StudyContent> contents = studyRepository.findAllByFirstCategoryAndSecondCategory(
+                dto.getFirstCategory(),
+                dto.getSecondCategory()
+        );
 
-        return studyRepository.findByCategoriesAndTitle(
-                        firstCategory,
-                        secondCategory,
-                        title
-                ).orElseThrow(() -> new IllegalArgumentException("해당 조건의 학습 컨텐츠를 찾을 수 없습니다."));
+        return contents.stream()
+                .map(StudyContentBody::new)
+                .collect(Collectors.toList());
     }
 
     /**
