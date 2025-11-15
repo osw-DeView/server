@@ -80,3 +80,7 @@ services:
 
 networks:
   deview-network:
+    name: deview-network
+    driver: bridge
+    # server compose가 네트워크를 생성 (없으면 생성, 있으면 사용)
+    # 나머지 compose는 external: true로 이 네트워크 사용
