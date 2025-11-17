@@ -4,6 +4,7 @@ on:
   push:
     branches: [ develope ]
   workflow_dispatch:
+
 jobs:
   integration-test:
     runs-on: ubuntu-latest
@@ -13,11 +14,11 @@ jobs:
         image: mysql:8
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_DATABASE: deview
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -p${{ secrets.MYSQL_ROOT_PASSWORD }}"
+          --health-cmd="mysqladmin ping -h localhost"
           --health-interval=5s
           --health-timeout=5s
           --health-retries=20
@@ -47,27 +48,33 @@ jobs:
 
       - name: Run Spring Boot Tests
         env:
+          # DB
           MYSQL_HOST: localhost
           MYSQL_PORT: 3306
           MYSQL_USERNAME: root
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_DATABASE: deview
 
+          # Redis
           REDIS_HOST: localhost
           REDIS_PORT: 6379
           REDIS_PASSWORD: ""
 
+          # Server
           SERVER_DOCKER_PORT: 8080
           SERVER_PORT: 8080
 
+          # JWT
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          JWT_ACCESS_EXPIRATION: ${{ secrets.JWT_ACCESS_EXPIRATION }}
-          JWT_REFRESH_EXPIRATION: ${{ secrets.JWT_REFRESH_EXPIRATION }}
+          JWT_ACCESS_EXPIRATION: 3600000
+          JWT_REFRESH_EXPIRATION: 1209600000
 
+          # Spring Boot
           SPRING_PROFILES_ACTIVE: prod
-          SPRING_JPA_HIBERNATE_DDL_AUTO: ${{ secrets.SPRING_JPA_HIBERNATE_DDL_AUTO }}
+          SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
-          FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+          # Frontend
+          FRONTEND_URL: http://localhost:3000
 
         run: |
           ./gradlew test --info
