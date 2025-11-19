@@ -2,9 +2,9 @@ name: Server CI
 
 on:
   pull_request:
-    branches: [ "develope", "main" ]
+    branches: [ "develop", "main" ]
   push:
-    branches:  [ "develope" ]
+    branches:  [ "develop" ]
   workflow_dispatch:
 
 jobs:
