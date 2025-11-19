@@ -38,6 +38,8 @@ spring:
 
   frontend:
     url: ${FRONTEND_URL:http://localhost:3000}
+  fastAPI:
+    url: ${FASTAPI_URL:http://localhost:8000}
 
 server:
   port: 8080

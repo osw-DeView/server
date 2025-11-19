@@ -27,7 +27,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -39,6 +38,8 @@ public class SecurityConfig {
 
     @Value("${spring.frontend.url}")
     private String frontendUrl;
+    @Value("${spring.fastAPI.url}")
+    private String fastAPIUrl;
 
     private static final String[] ALLOWED = {
             "/",
@@ -90,7 +91,7 @@ public class SecurityConfig {
                         CorsConfiguration config = new CorsConfiguration();
 
                         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                        config.setAllowedOriginPatterns(Collections.singletonList(frontendUrl));
+                        config.setAllowedOriginPatterns(Arrays.asList(frontendUrl, fastAPIUrl));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
                         config.setExposedHeaders(Arrays.asList("access", "Authorization")); // 프론트엔드에서 access 헤더를 읽을 수 있도록 설정
