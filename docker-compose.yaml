@@ -74,6 +74,7 @@ services:
 
       # Frontend URL
       FRONTEND_URL: ${FRONTEND_URL}
+      FASTAPI_URL: ${FASTAPI_URL}
 
     networks:
       - deview-network
