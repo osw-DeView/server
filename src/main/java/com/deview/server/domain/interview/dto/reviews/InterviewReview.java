@@ -1,4 +1,3 @@
-// ReviewResponse.java 수정
 package com.deview.server.domain.interview.dto.reviews;
 
 import java.util.List;

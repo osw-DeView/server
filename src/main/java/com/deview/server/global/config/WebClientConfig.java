@@ -1,4 +1,3 @@
-// WebClientConfig.java 수정
 package com.deview.server.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
