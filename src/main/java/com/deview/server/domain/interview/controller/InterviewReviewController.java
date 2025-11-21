@@ -1,6 +1,6 @@
 package com.deview.server.domain.interview.controller;
 
-import com.deview.server.domain.interview.dto.reviews.InterviewReview;
+import com.deview.server.domain.interview.dto.chat.response.interview.InterviewReview;
 import com.deview.server.domain.interview.service.InterviewReviewClient;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;

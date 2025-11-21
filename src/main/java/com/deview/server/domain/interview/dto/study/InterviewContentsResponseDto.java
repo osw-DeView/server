@@ -1,4 +1,4 @@
-package com.deview.server.domain.interview.dto;
+package com.deview.server.domain.interview.dto.study;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

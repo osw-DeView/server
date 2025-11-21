@@ -1,4 +1,4 @@
-package com.deview.server.domain.interview.dto;
+package com.deview.server.domain.interview.dto.study;
 
 import com.deview.server.domain.interview.domain.InterviewContent;
 import io.swagger.v3.oas.annotations.media.Schema;

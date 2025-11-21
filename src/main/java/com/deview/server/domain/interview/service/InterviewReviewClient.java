@@ -1,6 +1,6 @@
 package com.deview.server.domain.interview.service;
 
-import com.deview.server.domain.interview.dto.reviews.InterviewReview;
+import com.deview.server.domain.interview.dto.chat.response.interview.InterviewReview;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;

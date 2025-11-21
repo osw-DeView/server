@@ -1,4 +1,4 @@
-package com.deview.server.domain.interview.dto.chat.fastapi_request;
+package com.deview.server.domain.interview.dto.chat.request.fastapi_request;
 
 import com.deview.server.domain.interview.dto.chat.Message;
 import com.fasterxml.jackson.annotation.JsonProperty;
