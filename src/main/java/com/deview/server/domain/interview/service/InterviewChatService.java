@@ -11,10 +11,13 @@ import com.deview.server.domain.interview.dto.chat.request.InterviewStartRequest
 import com.deview.server.domain.interview.dto.chat.response.InterviewEvaluationResponse;
 import com.deview.server.domain.interview.dto.chat.response.InterviewNextResponse;
 import com.deview.server.domain.interview.dto.chat.response.InterviewStartResponse;
+import com.deview.server.domain.interview.dto.chat.response.record.ChatReviewResponse;
 import com.deview.server.domain.interview.repository.chat.InterviewSessionRepository;
 import com.deview.server.domain.interview.repository.chat.ChatReviewRepository;
+import com.deview.server.global.auth.util.JwtUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -139,4 +142,31 @@ public class InterviewChatService {
                     }
                 });
     }
+
+    @Transactional
+    public List<ChatReviewResponse> findChatReviewResponses(String token) {
+
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
+        String username = JwtUtil.getUsername(token);
+        List<ChatReview> chatReviewList = chatReviewRepository.findByUsername(username);
+
+        if(chatReviewList.isEmpty()){
+            return List.of();
+        }
+
+        return chatReviewList.stream()
+                .map(r -> ChatReviewResponse.builder()
+                        .id(r.getId())
+                        .interviewType(r.getInterviewType())
+                        .messages(r.getMessages())
+                        .overallScore(r.getOverallScore())
+                        .overallFeedback(r.getOverallFeedback())
+                        .createdAt(r.getCreatedAt().toString())
+                        .build())
+                .toList();
+    }
+
 }
