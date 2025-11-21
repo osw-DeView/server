@@ -47,7 +47,7 @@ services:
     env_file:
       - .env
     build:
-      context: .
+      context: ../..
       dockerfile: Dockerfile
     container_name: deview-server
     restart: on-failure
@@ -75,6 +75,9 @@ services:
       # Frontend URL
       FRONTEND_URL: ${FRONTEND_URL}
       FASTAPI_URL: ${FASTAPI_URL}
+
+      GOOGLE_SEARCH_API_KEY: ${GOOGLE_SEARCH_API_KEY}
+      GOOGLE_SEARCH_CX: ${GOOGLE_SEARCH_CX}
 
     networks:
       - deview-network
