@@ -1,17 +1,15 @@
 package com.deview.server.domain.interview.service;
 
 import com.deview.server.domain.interview.domain.InterviewContent;
-import com.deview.server.domain.interview.dto.InterviewCategoryItemDto;
-import com.deview.server.domain.interview.dto.InterviewContentAnswer;
-import com.deview.server.domain.interview.dto.InterviewContentRequestDto;
+import com.deview.server.domain.interview.dto.study.InterviewCategoryItemDto;
+import com.deview.server.domain.interview.dto.study.InterviewContentAnswer;
+import com.deview.server.domain.interview.dto.study.InterviewContentRequestDto;
 import com.deview.server.domain.interview.repository.InterviewRepository;
-import com.deview.server.domain.study.dto.CategoryItemDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

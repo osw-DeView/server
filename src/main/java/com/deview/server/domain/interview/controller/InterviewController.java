@@ -1,7 +1,10 @@
 package com.deview.server.domain.interview.controller;
 
-import com.deview.server.domain.interview.domain.InterviewContent;
-import com.deview.server.domain.interview.dto.*;
+import com.deview.server.domain.interview.dto.study.InterviewCategoryItemDto;
+import com.deview.server.domain.interview.dto.study.InterviewCategoryListResponseDto;
+import com.deview.server.domain.interview.dto.study.InterviewContentAnswer;
+import com.deview.server.domain.interview.dto.study.InterviewContentRequestDto;
+import com.deview.server.domain.interview.dto.study.InterviewContentsResponseDto;
 import com.deview.server.domain.interview.service.InterviewService;
 import com.deview.server.global.response.ApiResponse;
 import com.deview.server.global.response.Status;

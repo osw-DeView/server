@@ -6,6 +6,7 @@ import com.deview.server.domain.auth.dto.request.SignupRequestDto;
 import com.deview.server.domain.auth.util.PasswordManager;
 import com.deview.server.domain.member.domain.CustomUserDetails;
 import com.deview.server.domain.member.domain.Member;
+import com.deview.server.domain.member.dto.profile.response.MemberResponse;
 import com.deview.server.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,6 +43,10 @@ public class AuthService implements UserDetailsService {
     @Transactional(readOnly = true)
     public Boolean isExistMember(LoginRequestDto dto){
         return memberService.checkExistencesByUsername(dto.getUsername());
+    }
+
+    public MemberResponse memberProfile(String token){
+        return memberService.getMyInfo(token);
     }
 
 }

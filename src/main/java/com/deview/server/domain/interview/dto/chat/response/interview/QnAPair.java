@@ -1,4 +1,4 @@
-package com.deview.server.domain.interview.dto.reviews;
+package com.deview.server.domain.interview.dto.chat.response.interview;
 
 import lombok.Getter;
 import lombok.Setter;

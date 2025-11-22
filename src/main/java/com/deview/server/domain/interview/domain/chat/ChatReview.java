@@ -10,6 +10,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
@@ -33,16 +36,28 @@ public class ChatReview {
     @Column(columnDefinition = "TEXT")
     private String overallFeedback;
 
+    @Column(columnDefinition = "TEXT")
+    private String improvementKeywords; // JSON-serialized List<String>
+
+    @OneToMany(mappedBy = "chatReview", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TurnEvaluation> turnEvaluations = new ArrayList<>();
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @Builder
-    private ChatReview(String username, String interviewType, String messages, int overallScore, String overallFeedback) {
+    private ChatReview(String username, String interviewType, String messages, int overallScore, String overallFeedback, String improvementKeywords) {
         this.username = username;
         this.interviewType = interviewType;
         this.messages = messages;
         this.overallScore = overallScore;
         this.overallFeedback = overallFeedback;
+        this.improvementKeywords = improvementKeywords;
+    }
+
+    public void addTurnEvaluation(TurnEvaluation turnEvaluation) {
+        turnEvaluations.add(turnEvaluation);
+        turnEvaluation.setChatReview(this);
     }
 }
