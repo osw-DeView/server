@@ -19,6 +19,9 @@ jobs:
           MYSQL_DATABASE: deview
         ports:
           - 3306:3306
+
+        volumes:
+          - ./db/data:/var/lib/mysql-files
         options: >-
           --health-cmd="mysqladmin ping -h localhost"
           --health-interval=5s
@@ -75,6 +78,10 @@ jobs:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           JWT_ACCESS_EXPIRATION: 3600000
           JWT_REFRESH_EXPIRATION: 1209600000
+
+          # Google Search API
+          GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
+          GOOGLE_SEARCH_CX: ${{ secrets.GOOGLE_SEARCH_CX }}
 
           # Server config
           FRONTEND_URL: http://localhost:3000
