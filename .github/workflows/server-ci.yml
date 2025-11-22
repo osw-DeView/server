@@ -76,6 +76,10 @@ jobs:
           JWT_ACCESS_EXPIRATION: 3600000
           JWT_REFRESH_EXPIRATION: 1209600000
 
+          # Google Search API
+          GOOGLE_SEARCH_API_KEY: ${{ secrets.GOOGLE_SEARCH_API_KEY }}
+          GOOGLE_SEARCH_CX: ${{ secrets.GOOGLE_SEARCH_CX }}
+
           # Server config
           FRONTEND_URL: http://localhost:3000
           SPRING_JPA_HIBERNATE_DDL_AUTO: update

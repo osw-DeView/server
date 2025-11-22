@@ -76,6 +76,9 @@ services:
       FRONTEND_URL: ${FRONTEND_URL}
       FASTAPI_URL: ${FASTAPI_URL}
 
+      GOOGLE_SEARCH_API_KEY: ${GOOGLE_SEARCH_API_KEY}
+      GOOGLE_SEARCH_CX: ${GOOGLE_SEARCH_CX}
+
     networks:
       - deview-network
 
