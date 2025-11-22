@@ -19,9 +19,6 @@ jobs:
           MYSQL_DATABASE: deview
         ports:
           - 3306:3306
-
-        volumes:
-          - ./db/data:/var/lib/mysql-files
         options: >-
           --health-cmd="mysqladmin ping -h localhost"
           --health-interval=5s
