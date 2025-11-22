@@ -47,7 +47,7 @@ services:
     env_file:
       - .env
     build:
-      context: ../..
+      context: .
       dockerfile: Dockerfile
     container_name: deview-server
     restart: on-failure
