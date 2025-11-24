@@ -39,6 +39,7 @@ EXPOSE 8080
 
 # 실행 프로파일 설정 (필요한 환경변수는 컨테이너 실행 시 주입)
 ENV SPRING_PROFILES_ACTIVE=prod
+ENV TZ Asia/Seoul
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
