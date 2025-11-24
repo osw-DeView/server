@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: server
+
+  config:
+    import: optional:file:.env[.properties]
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_ROOT_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+    defer-datasource-initialization: true
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        default_batch_fetch_size: 10
+        jdbc.time_zone: Asia/Seoul
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD}
+
+  security:
+    jwt:
+      secret: ${JWT_SECRET_KEY}
+      access:
+        expiration: ${JWT_ACCESS_EXPIRATION}
+      refresh:
+          expiration: ${JWT_REFRESH_EXPIRATION}
+
+  frontend:
+    url: ${FRONTEND_URL:http://localhost:3000}
+  fastAPI:
+    url: ${FASTAPI_URL:http://localhost:8000}
+
+server:
+  port: 8080
+
+google:
+  search:
+    api-key: ${GOOGLE_SEARCH_API_KEY}
+    cx: ${GOOGLE_SEARCH_CX}
