@@ -14,6 +14,7 @@ import com.deview.server.global.response.ApiResponse;
 import com.deview.server.global.response.Status;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/interview/chat")
@@ -40,6 +42,7 @@ public class InterviewChatController {
 
     @PostMapping("/evaluation")
     public Mono<InterviewEvaluationResponse> evaluate(@RequestBody InterviewEvaluationRequest req) {
+        log.info("Received evaluation request from web client: {}", req);
         return interviewChatService.evaluate(req);
     }
 

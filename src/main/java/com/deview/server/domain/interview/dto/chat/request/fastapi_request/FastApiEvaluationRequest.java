@@ -16,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class FastApiEvaluationRequest {
+    @JsonProperty("interviewType")
+    private String interviewType;
     @JsonProperty("conversation")
     private List<Message> conversation;
 }

@@ -37,4 +37,6 @@ public interface InterviewRepository extends JpaRepository<InterviewContent, Str
     List<String> findKeyword(
             @Param("category") String category
     );
+
+    Optional<InterviewContent> findFirstByQuestion(String question);
 }
