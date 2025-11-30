@@ -47,25 +47,28 @@ public class InterviewChatService {
     }
 
     public Mono<InterviewStartResponse> startInterview(InterviewStartRequest req) {
+        log.info("Interview start request received: {}", req);
         String username = getCurrentUsername();
 
         // 세션 생성
         InterviewSession newSession = InterviewSession.create(username, req.getInterviewType());
+        log.info("Created new session object: {}", newSession);
 
         // 첫 질문 요청
         return webClient.post()
                 .uri("/interview/start")
-                .bodyValue(req) // InterviewStartRequest는 interviewType과 keyword를 포함
+                .bodyValue(req)
                 .retrieve()
                 .bodyToMono(InterviewStartResponse.class)
                 .doOnSuccess(response -> {
+                    log.info("Received first question from AI: {}", response.getResponse());
                     // 3. 첫 질문(assistant)을 세션에 추가
                     Message firstQuestion = new Message("assistant", response.getResponse());
                     newSession.addMessage(firstQuestion);
 
                     // 4. Redis에 세션 저장
                     sessionRepository.save(newSession);
-                    log.info("New interview session created in Redis: {}", newSession.getId());
+                    log.info("New interview session saved to Redis. Session ID: {}, Content: {}", newSession.getId(), newSession);
 
                     // 5. 응답에 세션 ID 추가
                     response.setSessionId(newSession.getId());
@@ -74,13 +77,16 @@ public class InterviewChatService {
 
     public Mono<InterviewNextResponse> next(InterviewNextRequest req) {
         String sessionId = req.getSessionId();
+        log.info("Interview next request received for session ID: {}", sessionId);
 
         // Redis에서 세션 조회
         InterviewSession session = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new NoSuchElementException("세션을 찾을 수 없습니다: " + sessionId));
+        log.info("Found session in Redis: {}", session);
 
         // 사용자 답변(user)을 세션에 추가
         Message userMessage = req.getMessages().get(req.getMessages().size() - 1);
+        log.info("Adding user message to session: {}", userMessage);
         session.addMessage(userMessage);
 
         // 다음 질문 요청
@@ -95,11 +101,12 @@ public class InterviewChatService {
                 .retrieve()
                 .bodyToMono(InterviewNextResponse.class)
                 .doOnSuccess(response -> {
+                    log.info("Received next question from AI: {}", response.getResponse());
                     Message nextQuestion = new Message("assistant", response.getResponse());
                     session.addMessage(nextQuestion);
 
                     sessionRepository.save(session);
-                    log.info("Interview session updated in Redis: {}", sessionId);
+                    log.info("Updated interview session saved to Redis. Session ID: {}, Content: {}", sessionId, session);
                 });
     }
 
@@ -111,8 +118,11 @@ public class InterviewChatService {
                 .orElseThrow(() -> new NoSuchElementException("세션을 찾을 수 없습니다: " + sessionId));
 
         FastApiEvaluationRequest fastApiReq = FastApiEvaluationRequest.builder()
+                .interviewType(session.getInterviewType())
                 .conversation(session.getMessages())
                 .build();
+
+        log.info("Sending evaluation request to AI server for session {}: {}", sessionId, fastApiReq);
 
         return webClient.post()
                 .uri("/interview/evaluation")
@@ -146,6 +156,7 @@ public class InterviewChatService {
                             review.addTurnEvaluation(turnEvaluation);
                         });
 
+                        log.info("Saving final chat review to database: {}", review);
                         chatReviewRepository.save(review);
                         log.info("Saved chat review to DB for session: {}", sessionId);
 
