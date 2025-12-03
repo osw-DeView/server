@@ -14,6 +14,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Schema(description = "면접 평가 보고서 응답 DTO")
 public class InterviewEvaluationResponse {
+    @JsonProperty("interviewType")
+    @Schema(description = "면접 유형", example = "Operating System")
+    private String interviewType;
+
     @JsonProperty("evaluation_report")
     @Schema(description = "면접 전체 평가 보고서")
     private EvaluationReport evaluationReport;
